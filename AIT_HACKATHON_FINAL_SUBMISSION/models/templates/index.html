@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌶 Indian Recipe Recommender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+      min-height: 100vh;
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ff6b6b, transparent),
+        radial-gradient(2px 2px at 40px 70px, #4ecdc4, transparent),
+        radial-gradient(1px 1px at 90px 40px, #ffe66d, transparent),
+        radial-gradient(1px 1px at 130px 80px, #a8e6cf, transparent),
+        radial-gradient(2px 2px at 160px 30px, #ff8b94, transparent);
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      animation: sparkle 20s linear infinite;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    @keyframes sparkle {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-200px) rotate(360deg); }
+    }
+
+    
+    .navbar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffe66d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-icon {
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    
+    .hero {
+      padding: 120px 2rem 60px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffe66d, #a8e6cf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 3s ease-in-out infinite;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(90deg); }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .card-form {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      animation: slideUp 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-form::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ff6b6b, #4ecdc4, #ffe66d, transparent);
+      animation: shimmer 2s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #ffffff;
+    }
+
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #ffffff;
+      font-size: 0.9rem;
+    }
+
+    .form-control, .form-select {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: #ffffff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-control:focus, .form-select:focus {
+      outline: none;
+      border-color: #4ecdc4;
+      box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-select option {
+      background: #1a1a2e;
+      color: #ffffff;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+  
+
+    .btn-submit {
+      width: 100%;
+      padding: 1.2rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-submit:hover::before {
+      left: 100%;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      display: none;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #4ecdc4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    
+    .results-container {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      padding: 0 2rem;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      animation: slideInLeft 0.5s ease-out;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    }
+
+    .result-card:hover {
+      transform: translateX(10px);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .result-card h5 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .similarity-score {
+      color: #4ecdc4;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .alert {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      color: #ff6b6b;
+      text-align: center;
+    }
+
+    
+    @media (max-width: 768px) {
+      .card-form {
+        padding: 2rem;
+        margin: 0 1rem;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .navbar-content {
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="#" class="navbar-brand">
+        <i class="fas fa-utensils nav-icon"></i>
+        Recipe Recommender
+      </a>
+    </div>
+  </nav>
+
+  
+  <div class="hero">
+    <h1>Discover Amazing Indian Recipes</h1>
+  </div>
+
+  
+  <div class="form-container">
+    <div class="card-form">
+      <h3 class="form-title">🌶 Find Your Perfect Dish</h3>
+      <form id="recipeForm" method="POST">
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-leaf"></i> Ingredients (comma-separated)
+          </label>
+          <input 
+            type="text" 
+            class="form-control" 
+            name="ingredients" 
+            required 
+            placeholder="e.g., ghee, cardamom, paneer, turmeric, garam masala"
+          >
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-seedling"></i> Diet Preference
+            </label>
+            <select class="form-select" name="diet">
+              <option value="">-- Select Diet --</option>
+              <option value="vegetarian">🥬 Vegetarian</option>
+              <option value="non vegetarian">🍗 Non-Vegetarian</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-clock"></i> Course Type
+            </label>
+            <select class="form-select" name="course">
+              <option value="">-- Select Course --</option>
+              <option value="main course">🍛 Main Course</option>
+              <option value="dessert">🍮 Dessert</option>
+              <option value="snack">🥨 Snack</option>
+              <option value="beverage">🥤 Beverage</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-map-marker-alt"></i> Regional Cuisine
+            </label>
+            <select class="form-select" name="region">
+              <option value="">-- Select Region --</option>
+              <option value="Punjab">🌾 Punjab</option>
+              <option value="West Bengal">🐟 West Bengal</option>
+              <option value="South India">🥥 South India</option>
+              <option value="Gujarat">🌶 Gujarat</option>
+              <option value="Rajasthan">🏰 Rajasthan</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-search"></i> Discover Recipes
+        </button>
+      </form>
+    </div>
+  </div>
+
+  
+  <div class="results-container">
+    <div id="loading" class="loading">
+      <div class="loader"></div>
+      <p>Searching through thousands of authentic recipes...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="recommendations"></div>
+  </div>
+
+
+
+  <script>
+    const form = document.getElementById("recipeForm");
+    const resultsDiv = document.getElementById("recommendations");
+    const loading = document.getElementById("loading");
+
+    
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'scale(1.02)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.style.transform = 'scale(1)';
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      resultsDiv.innerHTML = '';
+      loading.style.display = 'block';
+
+      const formData = new FormData(form);
+      const params = new URLSearchParams(formData);
+
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          body: params
+        });
+
+        const data = await response.json();
+        loading.style.display = 'none';
+
+        if (data.length > 0 && !data[0].error) {
+          data.forEach((recipe, index) => {
+            setTimeout(() => {
+              const card = document.createElement('div');
+              card.className = 'result-card';
+              card.innerHTML = `
+                <h5><i class="fas fa-utensils" style="color: #4ecdc4; margin-right: 0.5rem;"></i>${recipe.name}</h5>
+                <p class="similarity-score">
+                  <i class="fas fa-star"></i> 
+                  Similarity Score: ${recipe.similarity_score}%
+                </p>
+                ${recipe.image_url ? `<img src="${recipe.image_url}" alt="Recipe Image" style="width:100%;border-radius:12px;margin:1rem 0;">` : ''}
+                ${recipe.image_prompt ? `<div style="margin-top:1rem; color:#ffe66d; font-style:italic;">
+                  <i class="fas fa-image"></i> ${recipe.image_prompt}
+                </div>` : ''}
+              `;
+              resultsDiv.appendChild(card);
+            }, index * 150);
+          });
+        } else {
+          resultsDiv.innerHTML = `
+            <div class="alert">
+              <i class="fas fa-exclamation-triangle"></i>
+              No matching recipes found. Try different ingredients or preferences!
+            </div>
+          `;
+        }
+      } catch (err) {
+        loading.style.display = 'none';
+        resultsDiv.innerHTML = `
+          <div class="alert">
+            <i class="fas fa-exclamation-circle"></i>
+            Something went wrong: ${err.message}
+          </div>
+        `;
+      }
+    });
+
+    
+    form.addEventListener('submit', () => {
+      setTimeout(() => {
+        document.getElementById('loading').scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }, 100);
+    });
+  </script>
+
+</body>
+</html>
