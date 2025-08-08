@@ -8,6 +8,7 @@ from scipy.sparse import load_npz
 
 app = Flask(__name__)
 
+
 try:
     with open('models/recipe_names.pkl', 'rb') as f:
         recipe_names = pickle.load(f)
