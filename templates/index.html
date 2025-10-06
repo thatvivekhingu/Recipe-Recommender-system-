@@ -8,7 +8,34 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script>
+    try {
+  const response = await fetch("/predict", { method: "POST", body: params });
+  const data = await response.json();
+  resultsDiv.innerHTML = "";
   
+  if (data.error) {
+    alert(data.error);
+  } else {
+    data.recommendations.forEach(recipe => {
+      const card = document.createElement("div");
+      card.className = "recipe-card";
+      card.innerHTML = `
+        <img src="${recipe.image_url}" alt="${recipe.recipe}" />
+        <h3>${recipe.recipe}</h3>
+        <p>Ingredients: ${recipe.ingredients}</p>
+        <p>Region: ${recipe.region}</p>
+      `;
+      resultsDiv.appendChild(card);
+    });
+  }
+} catch (err) {
+  alert("Unexpected error: " + err.message);
+} finally {
+  loadingDiv.style.display = "none"; // ensure loader always hides
+}
+
+  </script>
   <style>
     * {
       margin: 0;
@@ -105,21 +132,27 @@
       margin: 0 auto;
     }
 
-    .hero h1 {
+    .hero h4 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-size: clamp(1.1rem, 3vw, 4rem);
       font-weight: 700;
-      margin-bottom: 1rem;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffe66d, #a8e6cf);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #bc3ce0, #4ecdc4, #ffe66d, #80d7b7, #ff6b6b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: gradient-shift 3s ease-in-out infinite;
+      background-size: 200% auto;
+      animation: text-pan 5s linear infinite;
+      margin-top: -50px;
     }
 
-    @keyframes gradient-shift {
-      0%, 100% { filter: hue-rotate(0deg); }
-      50% { filter: hue-rotate(90deg); }
+    @keyframes text-pan {
+      0% {
+        background-position: 0% center;
+      }
+      100% {
+        background-position: -100% center;
+      }
     }
 
     .hero p {
@@ -129,6 +162,8 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      margin-top: 20px;
+      
     }
 
     
@@ -136,6 +171,7 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 0 2rem;
+      
     }
 
     .card-form {
@@ -150,6 +186,7 @@
       animation: slideUp 0.8s ease-out;
       position: relative;
       overflow: hidden;
+      
     }
 
     .card-form::before {
@@ -369,6 +406,20 @@
       text-align: center;
     }
 
+    .recipe-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 1rem;
+      margin: 1rem 0;
+      max-width: 350px;
+    }
+    .recipe-card img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      margin: 1rem 0;
+    }
     
     @media (max-width: 768px) {
       .card-form {
@@ -393,17 +444,23 @@
     <div class="navbar-content">
       <a href="#" class="navbar-brand">
         <i class="fas fa-utensils nav-icon"></i>
-        Recipe Recommender
+        Recipe Recommender System With Local Flavors
       </a>
     </div>
   </nav>
 
   
   <div class="hero">
-    <h1>Discover Amazing Indian Recipes</h1>
+    <h4>Experience India's Regional Recipe Heritage</h4>
   </div>
-
-  
+      <div class="results-container">
+  <div id="loading" class="loading">
+    <div class="loader"></div>
+    <p>Searching through thousands of authentic recipes...</p>
+  </div>
+  <!-- FIX: Add this div -->
+  <div id="recommendations"></div>
+</div>
   <div class="form-container">
     <div class="card-form">
       <h3 class="form-title">🌶 Find Your Perfect Dish</h3>
@@ -445,6 +502,8 @@
               <option value="beverage">🥤 Beverage</option>
             </select>
           </div>
+    
+
           
           <div class="form-group">
             <label class="form-label">
@@ -452,11 +511,11 @@
             </label>
             <select class="form-select" name="region">
               <option value="">-- Select Region --</option>
-              <option value="Punjab">🌾 Punjab</option>
-              <option value="West Bengal">🐟 West Bengal</option>
-              <option value="South India">🥥 South India</option>
-              <option value="Gujarat">🌶 Gujarat</option>
-              <option value="Rajasthan">🏰 Rajasthan</option>
+              <option value="Punjab">🌾 Punjabi Food</option>
+              <option value="West Bengal">🐟 Bengali Food</option>
+              <option value="South India">🥥 South Indian Food</option>
+              <option value="Gujarat">🌶 Gujarati Food</option>
+              <option value="Rajasthan">🏰 Rajasthani Food</option>
             </select>
           </div>
         </div>
@@ -475,8 +534,8 @@
       <p>Searching through thousands of authentic recipes...</p>
     </div>
 
-    <!-- Results -->
-    <div id="recommendations"></div>
+  
+    
   </div>
 
 
@@ -520,15 +579,9 @@
               const card = document.createElement('div');
               card.className = 'result-card';
               card.innerHTML = `
-                <h5><i class="fas fa-utensils" style="color: #4ecdc4; margin-right: 0.5rem;"></i>${recipe.name}</h5>
-                <p class="similarity-score">
-                  <i class="fas fa-star"></i> 
-                  Similarity Score: ${recipe.similarity_score}%
-                </p>
-                ${recipe.image_url ? `<img src="${recipe.image_url}" alt="Recipe Image" style="width:100%;border-radius:12px;margin:1rem 0;">` : ''}
-                ${recipe.image_prompt ? `<div style="margin-top:1rem; color:#ffe66d; font-style:italic;">
-                  <i class="fas fa-image"></i> ${recipe.image_prompt}
-                </div>` : ''}
+                <h3>${recipe.name}</h3>
+                <p>Similarity Score: ${recipe.similarity_score}%</p>
+                ${recipe.image_url ? `<img src="${recipe.image_url}" alt="Recipe Image">` : ''}
               `;
               resultsDiv.appendChild(card);
             }, index * 150);
