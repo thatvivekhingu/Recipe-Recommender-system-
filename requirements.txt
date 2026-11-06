@@ -1,4 +1,4 @@
-# SwadAI Web & API Production Dependencies (Optimized for Vercel / Cloud)
+# Suggestion By Anna Web & API Production Dependencies (Optimized for Vercel / Cloud)
 Flask>=3.0.0
 scikit-learn>=1.5.0
 scipy>=1.13.0

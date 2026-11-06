@@ -1,8 +1,8 @@
-﻿<div align="center">
+<div align="center">
 
-# 🍲 SwadAI - Smart Full-Stack Indian Recipe & Kitchen Assistant
+# 🍲 Suggestion By Anna (suggestion-by-anna)
 
-### *Content-Based AI Recommender Engine & Smart Kitchen Companion*
+### *Smart Full-Stack Indian Recipe Recommender & Kitchen Assistant*
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask&logoColor=white)
@@ -17,9 +17,9 @@
 
 ## 📌 Overview
 
-**SwadAI** is an authentic, intelligent Indian Recipe Recommender and Kitchen Assistant. Built as a complete full-stack web application with **Python Flask**, **Streamlit (WebRTC Smart Fridge)**, **SQLite**, **Scikit-Learn (TF-IDF & Cosine Similarity)**, **OpenCV**, **MediaPipe**, **gTTS**, and **LLM API**.
+**Suggestion By Anna** (`suggestion-by-anna`) is an authentic, intelligent Indian Recipe Recommender and Kitchen Assistant. Built as a complete full-stack web application with **Python Flask**, **Streamlit (WebRTC Smart Fridge)**, **SQLite**, **Scikit-Learn (TF-IDF & Cosine Similarity)**, **OpenCV**, **MediaPipe**, **gTTS**, and **LLM API**.
 
-![SwadAI Banner](./hacathon.jpg)
+![Suggestion By Anna Banner](./hacathon.jpg)
 
 ---
 

@@ -767,7 +767,7 @@ def health_check():
     """Production health check probe."""
     return jsonify({
         'status': 'healthy',
-        'service': 'SwadAI Culinary Intelligence Engine',
+        'service': 'Suggestion By Anna Culinary Intelligence Engine',
         'database': 'SQLite recipes.db operational',
         'models_loaded': len(recipe_names) > 0,
         'total_recipes': len(recipe_names)
@@ -781,7 +781,7 @@ def api_documentation():
     <!DOCTYPE html>
     <html>
     <head>
-        <title>SwadAI REST API Interactive Playground</title>
+        <title>Suggestion By Anna REST API Interactive Playground</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
         <style>
@@ -805,9 +805,9 @@ def api_documentation():
     <body>
         <div class="container">
             <div class="header">
-                <h1>SwadAI REST API Documentation</h1>
+                <h1>Suggestion By Anna REST API Documentation</h1>
                 <p style="color: #94a3b8;">Interactive endpoint explorer for developers, interviewers & judges.</p>
-                <a href="/" style="color: #4ade80; text-decoration: none; font-weight: 700;">👈 Back to SwadAI Web App</a>
+                <a href="/" style="color: #4ade80; text-decoration: none; font-weight: 700;">👈 Back to Suggestion By Anna Web App</a>
             </div>
 
             <div class="endpoint-card">

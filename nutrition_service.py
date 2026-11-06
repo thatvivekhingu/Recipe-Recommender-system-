@@ -1,5 +1,5 @@
 """
-Nutrition & Dietary Intelligence Service for SwadAI.
+Nutrition & Dietary Intelligence Service for Suggestion By Anna.
 Calculates approximate calorie count, macronutrients (Protein, Carbs, Fat), 
 and dietary wellness tags for authentic Indian dishes based on ingredient composition.
 """

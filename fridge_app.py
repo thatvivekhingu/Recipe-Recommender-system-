@@ -1,5 +1,5 @@
 """
-SwadAI Smart Fridge & Kitchen Vision Assistant
+Suggestion By Anna Smart Fridge & Kitchen Vision Assistant
 Built with:
 - Python (main language)
 - Streamlit (modern interactive UI)
@@ -36,7 +36,7 @@ except Exception as e:
 
 # Streamlit Page Configuration
 st.set_page_config(
-    page_title="SwadAI Smart Fridge Vision & Kitchen Coach",
+    page_title="Suggestion By Anna Smart Fridge Vision & Kitchen Coach",
     page_icon="🧊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -146,7 +146,7 @@ class KitchenVisionTransformer:
         self.last_frame = img.copy()
 
         # Add HUD overlay with OpenCV
-        cv2.putText(img, "SwadAI Smart Fridge Vision active", (20, 35), 
+        cv2.putText(img, "Suggestion By Anna Smart Fridge Vision active", (20, 35), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         cv2.rectangle(img, (15, 15), (w - 15, h - 15), (0, 200, 0), 2)
 
@@ -182,12 +182,12 @@ with st.sidebar:
         st.caption(f"Connected to: `database/recipes.db`")
     
     st.divider()
-    st.markdown("👉 [Open Main SwadAI Web App](http://127.0.0.1:5000)")
+    st.markdown("👉 [Open Main Suggestion By Anna Web App](http://127.0.0.1:5000)")
 
 # -----------------------------------------------------------------------------
 # MAIN HEADER
 # -----------------------------------------------------------------------------
-st.markdown('<div class="main-title">SwadAI Smart Fridge & Kitchen Coach 🍲</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">Suggestion By Anna Smart Fridge & Kitchen Coach 🍲</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-title">Live WebRTC Camera Stream • MediaPipe Interaction • OpenCV Vision • SQLite Pantry • gTTS Voice Audio • LLM Coaching</div>', unsafe_allow_html=True)
 
 # Tabs
@@ -216,7 +216,7 @@ with tab_stream:
                 img = frame.to_ndarray(format="bgr24")
                 h, w, _ = img.shape
                 # OpenCV HUD
-                cv2.putText(img, "SwadAI Smart Fridge Scanner", (20, 35), 
+                cv2.putText(img, "Suggestion By Anna Smart Fridge Scanner", (20, 35), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                 cv2.rectangle(img, (20, 20), (w - 20, h - 20), (0, 200, 0), 2)
                 cv2.circle(img, (w // 2, h // 2), 35, (0, 255, 255), 2)
@@ -341,4 +341,4 @@ with tab_pantry:
         st.warning("Database module not found.")
 
 st.divider()
-st.caption("SwadAI Smart Fridge Vision Engine • Built with Streamlit, WebRTC, MediaPipe, OpenCV, SQLite, gTTS & Gemini LLM")
+st.caption("Suggestion By Anna Smart Fridge Vision Engine • Built with Streamlit, WebRTC, MediaPipe, OpenCV, SQLite, gTTS & Gemini LLM")
