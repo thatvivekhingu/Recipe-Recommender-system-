@@ -1,9 +1,23 @@
-﻿{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+{
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/api/index.py"
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": [
+          "templates/**",
+          "database/**",
+          "*.pkl",
+          "*.npz"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.py"
     }
   ]
 }
