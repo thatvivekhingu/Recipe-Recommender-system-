@@ -1,17 +1,9 @@
-# SwadAI - Production Dependencies
+# SwadAI Web & API Production Dependencies (Optimized for Vercel / Cloud)
 Flask>=3.0.0
-scikit-learn>=1.6.0
-scipy>=1.15.0
-numpy>=2.0.0
-pillow>=11.0.0
+scikit-learn>=1.5.0
+scipy>=1.13.0
+numpy>=1.26.0
+pillow>=10.0.0
 requests>=2.31.0
 python-dotenv>=1.0.0
-ultralytics>=8.0.0
-
-# Smart Fridge Vision & AI Coach Tech Stack
-streamlit>=1.40.0
-streamlit-webrtc>=0.79.0
-mediapipe>=1.2.0
-opencv-contrib-python>=4.10.0
-gTTS>=2.5.0
 google-generativeai>=0.8.0

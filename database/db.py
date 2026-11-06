@@ -1,14 +1,32 @@
 import sqlite3
 import os
+import shutil
 import json
 from datetime import datetime
 
 DB_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(DB_DIR, "recipes.db")
+
+if os.environ.get("VERCEL"):
+    DB_PATH = "/tmp/recipes.db"
+    orig_db = os.path.join(DB_DIR, "recipes.db")
+    if os.path.exists(orig_db) and not os.path.exists(DB_PATH):
+        try:
+            shutil.copyfile(orig_db, DB_PATH)
+        except Exception:
+            pass
+else:
+    DB_PATH = os.path.join(DB_DIR, "recipes.db")
 
 
 def get_connection():
     """Create a connection to the SQLite database with Row factory."""
+    if os.environ.get("VERCEL") and not os.path.exists(DB_PATH):
+        orig_db = os.path.join(DB_DIR, "recipes.db")
+        if os.path.exists(orig_db):
+            try:
+                shutil.copyfile(orig_db, DB_PATH)
+            except Exception:
+                pass
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
@@ -16,7 +34,8 @@ def get_connection():
 
 def init_db():
     """Initialize all database tables and seed starter data if empty."""
-    os.makedirs(DB_DIR, exist_ok=True)
+    if not os.environ.get("VERCEL"):
+        os.makedirs(DB_DIR, exist_ok=True)
     with get_connection() as conn:
         cursor = conn.cursor()
 

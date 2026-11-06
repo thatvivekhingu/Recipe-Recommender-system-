@@ -1,0 +1,9 @@
+﻿# Optional: Smart Fridge Vision & AI Coach Desktop Dependencies
+# Install these if you run the local Smart Fridge Camera Streamlit app: pip install -r requirements-fridge.txt
+-r requirements.txt
+streamlit>=1.40.0
+streamlit-webrtc>=0.79.0
+mediapipe>=1.2.0
+opencv-contrib-python>=4.10.0
+gTTS>=2.5.0
+ultralytics>=8.0.0

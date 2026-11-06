@@ -24,34 +24,39 @@ load_dotenv()
 UNSPLASH_API_KEY = os.getenv("UNSPLASH_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Initialize YOLO model if available
 try:
     from ultralytics import YOLO
-    yolo_model = YOLO('yolov8n.pt')
+    yolo_path = os.path.join(BASE_DIR, 'yolov8n.pt')
+    if os.path.exists(yolo_path):
+        yolo_model = YOLO(yolo_path)
+    else:
+        yolo_model = None
 except Exception as e:
     yolo_model = None
-    print("Could not load YOLO model:", e)
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
 
 # Load ML TF-IDF and Sparse Matrices
 try:
-    with open('recipe_names.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'recipe_names.pkl'), 'rb') as f:
         recipe_names = pickle.load(f)
 
-    with open('tfid_ingredients.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'tfid_ingredients.pkl'), 'rb') as f:
         tfidf_ingredients = pickle.load(f)
 
-    with open('tfid_diet.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'tfid_diet.pkl'), 'rb') as f:
         tfidf_diet = pickle.load(f)
 
-    with open('tfid_course.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'tfid_course.pkl'), 'rb') as f:
         tfidf_course = pickle.load(f)
 
-    with open('tfid_region.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'tfid_region.pkl'), 'rb') as f:
         tfidf_region = pickle.load(f)
 
-    input_features = load_npz('input_features.npz')
+    input_features = load_npz(os.path.join(BASE_DIR, 'input_features.npz'))
 except Exception as e:
     print("Error loading models:", e)
     raise
