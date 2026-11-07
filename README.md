@@ -115,7 +115,15 @@ Recipe_Recommender/
 
 ## 🚀 How to Run
 
-### Method 1: Main Full-Stack Web App (Flask + SQLite)
+### Method 1: Unified Full-Stack Streamlit Application (Recommended)
+Double-click `run_streamlit.bat` or run:
+```powershell
+streamlit run streamlit_app.py --server.port 8501
+```
+👉 Open browser: **http://localhost:8501**
+- Includes the full Recipe Recommender, Smart Fridge Vision Scanner, Pantry Manager, Favorites, Weekly Meal Planner, Shopping Checklist, AI Master Chef Studio, and Regional Thalis Catalog in one unified Streamlit dashboard!
+
+### Method 2: Flask Web Application (REST API & Web UI)
 Double-click `run.bat` or run:
 ```powershell
 python app.py
@@ -123,7 +131,7 @@ python app.py
 👉 Open browser: **http://127.0.0.1:5000**
 👉 Interactive API Docs: **http://127.0.0.1:5000/api/docs**
 
-### Method 2: Smart Fridge Vision & AI Coach (Streamlit + WebRTC + MediaPipe)
+### Method 3: Smart Fridge Vision & AI Coach (WebRTC Camera)
 Double-click `run_fridge_ai.bat` or run:
 ```powershell
 streamlit run fridge_app.py
